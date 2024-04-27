@@ -1,3 +1,5 @@
+// use std::process::Output;
+
 use clap::Parser;
 use rcli::{process_csv, Opts, Subcommand};
 
@@ -20,8 +22,12 @@ fn main() -> anyhow::Result<()> {
             // }
             // let json = serde_json::to_string_pretty(&ret)?;
             // fs::write(opts.output, json)?;
-
-            process_csv(&opts.input, &opts.output)?;
+            let output: String = if let Some(output) = opts.output {
+                output.clone()
+            } else {
+                format!("output.{}", opts.format)
+            };
+            process_csv(&opts.input, output, opts.format)?;
         }
     }
     Ok(())
