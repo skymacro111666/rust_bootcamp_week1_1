@@ -1,11 +1,12 @@
 // use std::process::Output;
 
 use clap::Parser;
-use rcli::{process_csv, Opts, Subcommand};
+use rcli::{process_csv, process_genpass, Opts, Subcommand};
 
 fn main() -> anyhow::Result<()> {
     let opts = Opts::parse();
     // print!("{:?}", opts);
+
     match opts.cmd {
         Subcommand::Csv(opts) => {
             // let mut reader = Reader::from_path(opts.input)?;
@@ -28,6 +29,9 @@ fn main() -> anyhow::Result<()> {
                 format!("output.{}", opts.format)
             };
             process_csv(&opts.input, output, opts.format)?;
+        }
+        Subcommand::GenPass(opts) => {
+            process_genpass(&opts)?;
         }
     }
     Ok(())
