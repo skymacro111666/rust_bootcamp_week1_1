@@ -11,5 +11,5 @@ pub struct GenPassOpts {
     #[arg(long, default_value_t = true)]
     pub uppercase: bool,
     #[arg(short, long, default_value_t = true)]
-    pub symbols: bool,
+    pub symbol: bool,
 }
