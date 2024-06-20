@@ -1,7 +1,7 @@
+use super::verify_file;
+use crate::CmdExector;
 use clap::Parser;
 use std::{fmt, str::FromStr};
-
-use super::verify_file;
 
 #[derive(Debug, Parser)]
 pub struct CsvOpts {
@@ -21,6 +21,17 @@ pub struct CsvOpts {
 pub enum OutputFormat {
     Json,
     Yaml,
+}
+
+impl CmdExector for CsvOpts {
+    async fn execute(self) -> anyhow::Result<()> {
+        let output: String = if let Some(output) = self.output {
+            output
+        } else {
+            format!("output.{}", self.format)
+        };
+        crate::process_csv(&self.input, output, self.format)
+    }
 }
 
 fn parse_format(format: &str) -> Result<OutputFormat, anyhow::Error> {
